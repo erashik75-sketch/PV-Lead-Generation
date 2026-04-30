@@ -15,24 +15,15 @@ import {
   Link as LinkIcon,
   Briefcase,
   Sparkles,
-  Shield,
   ExternalLink,
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface Profile {
   full_name: string;
   title: string;
   linkedin_url: string | null;
-}
-
-function initials(name: string) {
-  const p = name.trim().split(/\s+/).filter(Boolean);
-  if (p.length === 0) return "PV";
-  if (p.length === 1) return p[0]!.slice(0, 2).toUpperCase();
-  return `${p[0]![0]}${p[p.length - 1]![0]}`.toUpperCase();
 }
 
 export default function ProfilePage() {
@@ -85,12 +76,6 @@ export default function ProfilePage() {
     return `https://${u}`;
   }, [profile.linkedin_url]);
 
-  const completionPct = useMemo(() => {
-    const fields = [profile.full_name?.trim(), profile.title?.trim(), profile.linkedin_url?.trim()];
-    const filled = fields.filter(Boolean).length;
-    return Math.round((filled / 3) * 100);
-  }, [profile.full_name, profile.title, profile.linkedin_url]);
-
   const handleSave = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -137,7 +122,10 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="mx-auto max-w-5xl animate-pulse space-y-8 px-0">
-        <div className="h-36 rounded-2xl bg-muted/60" />
+        <div className="space-y-3 border-b border-border/60 pb-8">
+          <div className="h-8 w-48 rounded-md bg-muted/60" />
+          <div className="h-4 max-w-md rounded-md bg-muted/50" />
+        </div>
         <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
           <div className="h-48 rounded-2xl bg-muted/50" />
           <div className="space-y-4">
@@ -163,57 +151,12 @@ export default function ProfilePage() {
 
   return (
     <div className="relative mx-auto max-w-5xl pb-16">
-      {/* Hero */}
-      <section
-        className={cn(
-          "relative overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br",
-          "from-primary/[0.07] via-background to-primary/[0.04]",
-          "shadow-[0_1px_0_0_hsl(var(--border)),0_24px_48px_-24px_hsl(var(--primary)/0.25)]",
-          "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.15),transparent)]"
-        )}
-      >
-        <div className="relative flex flex-col gap-6 px-6 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-10">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div
-              className={cn(
-                "flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl text-2xl font-semibold tracking-tight",
-                "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25"
-              )}
-              aria-hidden
-            >
-              {initials(profile.full_name || "Plummy Venture")}
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                  {profile.full_name.trim() || "Your profile"}
-                </h1>
-                <Badge variant="secondary" className="gap-1 font-normal">
-                  <Shield className="h-3 w-3" aria-hidden />
-                  Active account
-                </Badge>
-              </div>
-              <p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                Identity used across outreach—names and titles appear in email and LinkedIn sequences for Plummy Venture.
-              </p>
-            </div>
-          </div>
-          <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
-            <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-              Completion
-            </span>
-              <div className="h-2 w-full max-w-[200px] overflow-hidden rounded-full bg-muted sm:w-[200px]">
-              <div
-                className="h-full rounded-full bg-primary transition-all duration-500"
-                style={{ width: `${completionPct}%` }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Add name, role, and LinkedIn for a complete outreach signature.
-            </p>
-          </div>
-        </div>
-      </section>
+      <header className="border-b border-border/80 pb-8">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Profile</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Manage how you appear in outreach—this name and title are used in email and LinkedIn sequences.
+        </p>
+      </header>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[280px_1fr] lg:items-start">
         {/* Sidebar */}

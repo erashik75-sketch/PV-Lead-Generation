@@ -60,7 +60,7 @@ INSERT INTO niches (name, description, enabled) VALUES
   ('DTC Kids & Family Apparel', 'Premium children and family clothing brands, DTC model', TRUE),
   ('DTC Swimwear & Resort', 'Swimwear and resort wear brands with year-round DTC model', TRUE),
   ('DTC Workwear & Smart Casual', 'Modern workwear brands bridging professional and casual styles', TRUE)
-ON CONFLICT DO NOTHING;
+ON CONFLICT (name) DO NOTHING;
 
 -- Products (PV product catalog)
 INSERT INTO products (name, category, moq, enabled) VALUES
@@ -79,4 +79,4 @@ INSERT INTO products (name, category, moq, enabled) VALUES
   ('Cut & Sew — Athleisure Coordinates',  'Cut & Sew',      300,  TRUE),
   ('Cut & Sew — Kids Apparel',            'Cut & Sew',      500,  TRUE),
   ('Swimwear & Beachwear',                'Swimwear',       500,  TRUE)
-ON CONFLICT DO NOTHING;
+ON CONFLICT (name) DO NOTHING;
